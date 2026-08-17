@@ -1,0 +1,7 @@
+services:
+  nginx:
+    image: nginx:latest
+    container_name: security-nginx
+
+    ports:
+      - "8080:80"
