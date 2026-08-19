@@ -1,7 +1,19 @@
 services:
-  nginx:
+  nginx-insecure:
     image: nginx:latest
-    container_name: security-nginx
-
+    container_name: nginx-insecure
     ports:
       - "8080:80"
+    privileged: true
+
+  nginx-secure:
+    image: nginxinc/nginx-unprivileged:1.25-alpine
+    container_name: nginx-secure
+    ports:
+      - "8081:8080"
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/run
+      - /var/cache/nginx
+      - /etc/nginx/conf.d

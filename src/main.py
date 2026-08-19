@@ -1,5 +1,5 @@
+import argparse
 from docker_checker import get_container_info, get_container_user
-
 from security_checks import (
     check_running,
     check_root_user,
@@ -10,11 +10,13 @@ from security_checks import (
 
 
 def main():
-    container_name = "security-nginx"
+    parser = argparse.ArgumentParser(description="Auditoria de Segurança de Containers Docker")
+    parser.add_argument("container", help="Nome do container para analisar")
+    args = parser.parse_args()
 
     try:
-        container = get_container_info(container_name)
-        user = get_container_user(container_name)
+        container = get_container_info(args.container)
+        user = get_container_user(container)
 
     except RuntimeError as error:
         print(f"[ERROR] {error}")
@@ -56,7 +58,6 @@ def main():
     score = int((passed / len(checks)) * 100)
 
     print(f"\nSecurity Score: {score}/100")
-
 
 if __name__ == "__main__":
     main()
